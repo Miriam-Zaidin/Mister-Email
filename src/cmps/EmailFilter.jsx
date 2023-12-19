@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export function EmailFilter({ filterBy, onSetFilter }) {
+export function EmailFilter({ filterBy='', onSetFilter='' }) {
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
     function handleChange(ev) {
@@ -10,7 +10,7 @@ export function EmailFilter({ filterBy, onSetFilter }) {
     }
 
     useEffect(() => {
-        onSetFilter(filterByToEdit)
+        // onSetFilter(filterByToEdit)
     }, [filterByToEdit])
 
     // function handleModelChange(value) {

@@ -20,13 +20,10 @@ export function App() {
                         <Route path="/email" element={<EmailIndex />}>
                             <Route path="/email/:emailId" element={<EmailDetails />} />
                         </Route>
-
                     </Routes>
                 </main>
                 <AppFooter />
             </section>
         </Router >
-
-
     )
 }
