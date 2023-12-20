@@ -1,14 +1,17 @@
 .app-header {
     background: #e91e63;
     color: white;
-
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
 }
 
-.app-header section.container {
+/* .app-header section.container {
     display: flex;
     align-items: center;
 
-}
+} */
 
 .app-header h1.logo {
     flex-grow: 1;

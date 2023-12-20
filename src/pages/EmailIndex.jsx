@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { emailService } from "../services/email.service";
 import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
+import { EmailFolderList } from "../cmps/EmailFolderList";
+import { AppAside } from "../cmps/AppAside";
 
 export function EmailIndex() {
     const [emails, setEmails]=useState(null)
@@ -32,9 +34,10 @@ export function EmailIndex() {
     return (
         <section className="email-index">
         {/* <RobotFilter filterBy={{ model, minBatteryStatus }} onSetFilter={onSetFilter} /> */}
+        <AppAside></AppAside>
+        {/* <EmailFilter /> */}
 
-        <EmailFilter />
-        
+
         <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />
     </section>
     )
