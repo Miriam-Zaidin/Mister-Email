@@ -6,7 +6,7 @@ import { EmailFolderList } from "../cmps/EmailFolderList";
 import { AppAside } from "../cmps/AppAside";
 
 export function EmailIndex() {
-    const [emails, setEmails]=useState(null)
+    const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState()
 
     useEffect(() => {
@@ -26,20 +26,29 @@ export function EmailIndex() {
                 return prevEmails.filter(email => email.id !== emailId)
             })
         } catch (error) {
-            console.log('error:', error)
+            console.log('Had issues removing email', err);
+        }
+    }
+
+    async function onUpdateEmail(emailToUpdate) {
+        try {
+            const savedEmail = await emailService.save(emailToUpdate)
+            setEmails((prevEmails) => prevEmails.map(email => email.id === emailToUpdate.id ? savedEmail : email))
+        } catch (err) {
+            console.log('Had issues saving email', err);
         }
     }
 
     if (!emails) return <div>Loading...</div>
     return (
         <section className="email-index">
-        {/* <RobotFilter filterBy={{ model, minBatteryStatus }} onSetFilter={onSetFilter} /> */}
-        <AppAside></AppAside>
-        {/* <EmailFilter /> */}
+            {/* <RobotFilter filterBy={{ model, minBatteryStatus }} onSetFilter={onSetFilter} /> */}
+            <AppAside></AppAside>
+            {/* <EmailFilter /> */}
 
 
-        <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />
-    </section>
+            <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />
+        </section>
     )
 }
 
