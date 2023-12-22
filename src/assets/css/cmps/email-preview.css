@@ -1,9 +1,54 @@
-.is-starred{
-    color:#eabf3e;
+.email-preview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s;
+    text-align: left;
 }
 
-.email-preview{
+.email-preview:hover {
+    background-color: #f8f8f8;
 }
-.email-preview:hover{
-background-color: #e0e0e0;
+
+.email-preview:hover .email-actions {
+    display: flex;
+}
+
+.email-preview button {
+    background: none;
+    border: none;
+    margin-right: 10px;
+    outline: none;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.email-preview span {
+    text-align: left;
+
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    margin-right: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fa {
+    font-size: 18px;
+}
+
+.email-preview .is-starred {
+    color: #eabf3e;
+}
+
+.email-actions {
+    display: none;
+}
+
+.span-sent-at{
+    text-align: right;
 }
