@@ -21,6 +21,11 @@ export function EmailDetails() {
         }
     }
 
+    async function onRemoveEmail() {
+        await emailService.remove(email.id);
+        onBack()
+    }
+
     function onBack() {
         navigate('/email')
     }
@@ -33,6 +38,10 @@ export function EmailDetails() {
             <h3>body: {email.body}</h3>
             {/* <h3>Battery: {email.batteryStatus}</h3> */}
             {/* link is better */}
+            <button onClick={onRemoveEmail}>
+                Remove
+                <i className="fa fa-trash-o"></i>
+            </button>
             <button onClick={onBack}>Back</button>
         </section>
     )
