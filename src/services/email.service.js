@@ -7,6 +7,7 @@ export const emailService = {
     remove,
     getById,
     createEmail,
+    getDefaultFilter
 }
 
 const STORAGE_KEY = 'emails'
@@ -17,17 +18,55 @@ const loggedInUser = {
 
 _createEmails()
 
-async function query(filterBy) {
+const defaultFilter = {
+    status: 'inbox',
+    txt: '',
+    isRead: null
+}
+
+function getDefaultFilter() {
+    return defaultFilter
+}
+
+async function query(filterBy = defaultFilterBy) {
     let emails = await storageService.query(STORAGE_KEY)
-    if (filterBy) {
-        var { type, maxBatteryStatus, minBatteryStatus, model } = filterBy
-        maxBatteryStatus = maxBatteryStatus || Infinity
-        minBatteryStatus = minBatteryStatus || 0
-        emails = emails.filter(email => email.type.toLowerCase().includes(type.toLowerCase()) && email.model.toLowerCase().includes(model.toLowerCase())
-            && (email.batteryStatus < maxBatteryStatus)
-            && email.batteryStatus > minBatteryStatus)
+    const { status, txt, isRead } = filterBy
+    if (status) {
+        switch (status) {
+            case 'inbox':
+                emails = emails.filter(email => email.to === loggedInUser.email)
+                break;
+            case 'sent':
+                emails = emails.filter(email => email.from === loggedInUser.email)
+                break;
+            case 'star':
+                emails = emails.filter(email => email.isStarred)
+                break;
+            case 'trash':
+                emails = emails.filter(email => email.removedAt)
+                break;
+            default:
+                console.log('Conflict: query emails status Invalid :', status)
+                break;
+        }
     }
+    if (txt)
+        emails = emails.filter(email => email.body.toLowerCase().includes(txt.toLowerCase()) ||
+            email.subject.toLowerCase().includes(txt.toLowerCase()));
+
+    if (isRead !== null)
+        emails = emails.filter(email => email.isRead === isRead)
+
     return emails
+}
+
+function getFilterFromParams(searchParams) {
+    const defaultFilter = getDefaultFilter()
+    const filterBy = {}
+    for (const field in defaultFilter) {
+        filterBy[field] = searchParams.get(field) || defaultFilter[field]
+    }
+    return filterBy
 }
 
 function getById(id) {

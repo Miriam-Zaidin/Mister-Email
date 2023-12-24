@@ -7,11 +7,11 @@ import { AppAside } from "../cmps/AppAside";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null)
-    const [filterBy, setFilterBy] = useState()
+    const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
 
     useEffect(() => {
         loadEmails();
-    }, [])
+    }, [filterBy])
 
     async function loadEmails() {
         const emails = await emailService.query(filterBy)
@@ -39,41 +39,17 @@ export function EmailIndex() {
         }
     }
 
+    function onSetFilter(filterBy) {
+        console.log('filterBy in index', filterBy)
+        setFilterBy(prevFilter=>({...prevFilter,...filterBy}))
+    }
+
     if (!emails) return <div>Loading...</div>
     return (
         <section className="email-index">
-            {/* <RobotFilter filterBy={{ model, minBatteryStatus }} onSetFilter={onSetFilter} /> */}
             <AppAside></AppAside>
-            {/* <EmailFilter /> */}
-
-
+            <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
             <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />
         </section>
     )
 }
-
-// -------------------
-
-// export function RobotIndex() {
-
-//     const [robots, setRobots] = useState(null)
-//     const [filterBy, setFilterBy] = useState(robotService.getDefaultFilter())
-
-//     useEffect(() => {
-//         loadRobots()
-//     }, [filterBy])
-
-//     function onSetFilter(filterBy) {
-//         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
-//     }
-
-//     if (!robots) return <div>Loading...</div>
-//     const { model, minBatteryStatus } = filterBy
-//     return (
-//         <section className="robot-index">
-//             <h1>Welcome! this is our robots</h1>
-//             <RobotFilter filterBy={{ model, minBatteryStatus }} onSetFilter={onSetFilter} />
-//             <RobotList robots={robots} onRemoveRobot={onRemoveRobot} />
-//         </section>
-//     )
-// }

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { emailService } from "../services/email.service"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export function EmailDetails() {
     const [email, setEmail] = useState(null)
@@ -9,7 +9,8 @@ export function EmailDetails() {
 
     useEffect(() => {
         loadEmail()
-    }, [params.emailId])
+    }, [])
+    // }, [params.emailId])
 
     async function loadEmail() {
         try {
@@ -23,7 +24,7 @@ export function EmailDetails() {
     function onBack() {
         navigate('/email')
     }
-    
+
     if (!email) return <div>Loading...</div>
     return (
         <section className="email-details">
@@ -31,6 +32,7 @@ export function EmailDetails() {
             <h3>subject: {email.subject}</h3>
             <h3>body: {email.body}</h3>
             {/* <h3>Battery: {email.batteryStatus}</h3> */}
+            {/* link is better */}
             <button onClick={onBack}>Back</button>
         </section>
     )
