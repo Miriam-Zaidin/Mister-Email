@@ -1,21 +1,25 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useOutletContext, useParams } from "react-router-dom"
 import { emailService } from "../services/email.service"
 import { useEffect, useState } from "react"
 
 export function EmailDetails() {
     const [email, setEmail] = useState(null)
     const params = useParams()
+    const { onUpdateEmail } = useOutletContext()
     const navigate = useNavigate()
 
     useEffect(() => {
         loadEmail()
+        
     }, [])
     // }, [params.emailId])
+
 
     async function loadEmail() {
         try {
             const email = await emailService.getById(params.emailId)
             setEmail(email)
+            if(!email.isRead) onUpdateEmail({ ...email, isRead: true })
         } catch (error) {
             console.log('error:', error)
         }
@@ -36,8 +40,6 @@ export function EmailDetails() {
             <h1>email Details</h1>
             <h3>subject: {email.subject}</h3>
             <h3>body: {email.body}</h3>
-            {/* <h3>Battery: {email.batteryStatus}</h3> */}
-            {/* link is better */}
             <button onClick={onRemoveEmail}>
                 Remove
                 <i className="fa fa-trash-o"></i>

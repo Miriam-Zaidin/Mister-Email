@@ -74,7 +74,6 @@ function getById(id) {
 }
 
 function remove(id) {
-    console.log("id:", id);
     return storageService.remove(STORAGE_KEY, id)
 }
 

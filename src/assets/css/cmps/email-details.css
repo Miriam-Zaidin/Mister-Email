@@ -1,0 +1,38 @@
+.email-details {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .email-details h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .email-details h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .email-details button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .email-details button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .fa-trash-o {
+    margin-left: 5px;
+  }

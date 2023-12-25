@@ -17,12 +17,12 @@ export function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutUs />} />
-                        <Route path="/email" element={<EmailIndex />} />
-                        <Route path="/email/:emailId" element={<EmailDetails />} />
-                        {/* </Route> */}
+                        <Route path="/email" element={<EmailIndex />}>
+                            <Route path="/email/:emailId" element={<EmailDetails />} />
+                        </Route>
                     </Routes>
                 </main>
-                <AppFooter />
+                {/* <AppFooter /> */}
             </section>
         </Router >
     )

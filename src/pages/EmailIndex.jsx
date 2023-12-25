@@ -4,10 +4,13 @@ import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
 import { EmailFolderList } from "../cmps/EmailFolderList";
 import { AppAside } from "../cmps/AppAside";
+import { Outlet, useParams } from "react-router-dom";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
+    // const { } = useParams()
+    const params = useParams()
 
     useEffect(() => {
         loadEmails();
@@ -16,7 +19,7 @@ export function EmailIndex() {
     async function loadEmails() {
         const emails = await emailService.query(filterBy)
         setEmails(emails);
-        console.log("emails: ", emails)
+        // console.log("emails: ", emails)
     }
 
     async function onRemoveEmail(emailId) {
@@ -40,8 +43,7 @@ export function EmailIndex() {
     }
 
     function onSetFilter(filterBy) {
-        console.log('filterBy in index', filterBy)
-        setFilterBy(prevFilter=>({...prevFilter,...filterBy}))
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 
     if (!emails) return <div>Loading...</div>
@@ -49,7 +51,9 @@ export function EmailIndex() {
         <section className="email-index">
             <AppAside></AppAside>
             <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
-            <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />
+            
+            {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail }}/>
+            :<EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
         </section>
     )
 }

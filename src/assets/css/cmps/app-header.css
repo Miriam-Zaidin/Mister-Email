@@ -1,10 +1,9 @@
 .app-header {
-    background: #e91e63;
     color: white;
     background-color: #666;
-    padding: 30px;
+    padding: 10px;
     text-align: center;
-    font-size: 35px;
+    font-size: 15px;
 }
 
 /* .app-header section.container {
