@@ -7,7 +7,8 @@ export const emailService = {
     remove,
     getById,
     createEmail,
-    getDefaultFilter
+    getDefaultFilter,
+    getNextId
 }
 
 const STORAGE_KEY = 'emails'
@@ -70,6 +71,11 @@ function getFilterFromParams(searchParams) {
 }
 
 function getById(id) {
+    return storageService.get(STORAGE_KEY, id)
+}
+
+function getNextId(id) {
+    // not complited
     return storageService.get(STORAGE_KEY, id)
 }
 

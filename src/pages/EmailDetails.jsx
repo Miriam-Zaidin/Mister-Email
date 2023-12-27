@@ -1,16 +1,18 @@
-import { useNavigate, useOutletContext, useParams } from "react-router-dom"
+import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom"
 import { emailService } from "../services/email.service"
 import { useEffect, useState } from "react"
 
-export function EmailDetails() {
+// export function EmailDetails() {
+export function EmailDetails({ onUpdateEmail, onRemoveEmail: onRemoveEmailProp }) {
     const [email, setEmail] = useState(null)
     const params = useParams()
-    const { onUpdateEmail } = useOutletContext()
+    const [nextEmail, setNextEmail]=useState()
+    // const { onUpdateEmail, onRemoveEmail:onRemoveEmailProp } = useOutletContext()
     const navigate = useNavigate()
 
     useEffect(() => {
         loadEmail()
-        
+        // loadNextEmailId()
     }, [])
     // }, [params.emailId])
 
@@ -19,19 +21,29 @@ export function EmailDetails() {
         try {
             const email = await emailService.getById(params.emailId)
             setEmail(email)
-            if(!email.isRead) onUpdateEmail({ ...email, isRead: true })
+            if (!email.isRead) onUpdateEmail({ ...email, isRead: true })
+        } catch (error) {
+            console.log('error:', error)
+        }
+    }
+
+    async function loadNextEmailId() {
+        try {
+            const nextEmail = await emailService.getNextId(params.emailId)
+            setNextEmail(nextEmail)
         } catch (error) {
             console.log('error:', error)
         }
     }
 
     async function onRemoveEmail() {
-        await emailService.remove(email.id);
+        await onRemoveEmailProp(email.id)
         onBack()
     }
 
     function onBack() {
         navigate('/email')
+        // navigate(`/${params.folder}/`);
     }
 
     if (!email) return <div>Loading...</div>
@@ -45,6 +57,7 @@ export function EmailDetails() {
                 <i className="fa fa-trash-o"></i>
             </button>
             <button onClick={onBack}>Back</button>
+            {nextEmail&&<Link to={`/${params.folder}/${nextEmail.id}`}></Link>}
         </section>
     )
 

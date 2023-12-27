@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export function EmailPreview({ email, onRemoveEmail, onUpdateEmail }) {
     function onToggle(ev) {
+        ev.preventDefault()
         const { name: field } = ev.target
         const updatedEmail = { ...email, [field]: !email[field] }
         onUpdateEmail(updatedEmail)
@@ -27,7 +28,7 @@ export function EmailPreview({ email, onRemoveEmail, onUpdateEmail }) {
                     <button onClick={onToggle} name="isRead">
                         <i className={isReadIcon}></i>
                     </button>
-                    <button onClick={() => onRemoveEmail(email.id)}>
+                    <button onClick={(ev) => {ev.preventDefault();onRemoveEmail(email.id)}}>
                         <i className="fa fa-trash-o"></i>
                     </button>
                 </div>

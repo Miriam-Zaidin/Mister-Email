@@ -5,6 +5,7 @@ import { EmailFilter } from "../cmps/EmailFilter";
 import { EmailFolderList } from "../cmps/EmailFolderList";
 import { AppAside } from "../cmps/AppAside";
 import { Outlet, useParams } from "react-router-dom";
+import { EmailDetails } from "./EmailDetails";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null)
@@ -18,18 +19,35 @@ export function EmailIndex() {
 
     async function loadEmails() {
         const emails = await emailService.query(filterBy)
+        // להוסיף את מספר המילים
+        // const {emails, totalCount} = await emailService.query(filterBy)
+        // setInboxCount(totalCount)
         setEmails(emails);
-        // console.log("emails: ", emails)
     }
 
     async function onRemoveEmail(emailId) {
         try {
-            await emailService.remove(emailId)
-            setEmails(prevEmails => {
-                return prevEmails.filter(email => email.id !== emailId)
-            })
+            let userConfirmed
+            if (false) {
+                // if (params.folder === 'trash') {
+                userConfirmed = await confirmAsync('Are you sure to remove this email forever?');
+                if (userConfirmed) await emailService.remove(emailId);
+            }
+            else {
+                userConfirmed = confirm('Are you sure to remove this email?');
+                if (userConfirmed) {
+                    // למה לא להביא לפה את כל אובייקט המייל ולחסוך גישה לשרת?
+                    const emailToRemove = await emailService.getById(emailId);
+                    emailToRemove.removedAt = Date.now();
+                    await emailService.save(emailToRemove);
+                }
+            }
+            if (userConfirmed)
+                setEmails(prevEmails => {
+                    return prevEmails.filter(email => email.id !== emailId)
+                })
         } catch (error) {
-            console.log('Had issues removing email', err);
+            console.log('Had issues removing email', error);
         }
     }
 
@@ -51,9 +69,10 @@ export function EmailIndex() {
         <section className="email-index">
             <AppAside></AppAside>
             <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
-            
-            {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail }}/>
-            :<EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
+
+            {/* {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail,  onRemoveEmail: onRemoveEmail }} /> */}
+            {params.emailId ? <EmailDetails  onUpdateEmail={onUpdateEmail}  onRemoveEmail= {onRemoveEmail} />
+                : <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
         </section>
     )
 }
