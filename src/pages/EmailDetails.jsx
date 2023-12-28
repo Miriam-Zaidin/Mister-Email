@@ -23,7 +23,8 @@ export function EmailDetails({ onUpdateEmail, onRemoveEmail: onRemoveEmailProp }
             setEmail(email)
             if (!email.isRead) onUpdateEmail({ ...email, isRead: true })
         } catch (error) {
-            console.log('error:', error)
+            onBack()
+            console.log('Had issues loading email in emailDetails:', error)
         }
     }
 
