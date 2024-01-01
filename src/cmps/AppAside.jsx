@@ -1,12 +1,15 @@
+import { Link, useSearchParams } from "react-router-dom";
 import { EmailFolderList } from "./EmailFolderList";
 
 export function AppAside() {
-    return (
-        <aside className="aside">
-            <button className="email-compose" >
-                Compose
-            </button>
-            <EmailFolderList />
-        </aside>
-    )
+  const [searchParams, setSearchParams] = useSearchParams()
+  function openCompose() {
+    setSearchParams("compose=new")
+  }
+  return (
+    <aside className="aside">
+      <button onClick={openCompose} className="email-compose">Compose</button>
+      <EmailFolderList />
+    </aside>
+  );
 }

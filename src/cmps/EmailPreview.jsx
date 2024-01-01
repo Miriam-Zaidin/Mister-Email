@@ -8,9 +8,9 @@ export function EmailPreview({ email, onRemoveEmail, onUpdateEmail }) {
         onUpdateEmail(updatedEmail)
     }
 
-    let starClass = email.isStarred ? 'is-starred' : '';
-    let starIcon = email.isStarred ? "fa fa-star" : "fa fa-star-o";
-    let isReadIcon = email.isRead ? "fa fa-envelope-open-o" : "fa fa-envelope-o";
+    let starClass = email.isStarred ? 'is-starred' : ''
+    let starIcon = email.isStarred ? "fa fa-star" : "fa fa-star-o"
+    let isReadIcon = email.isRead ? "fa fa-envelope-open-o" : "fa fa-envelope-o"
     let sentAt = new Date(email.sentAt).toLocaleString()
     return (
 
@@ -28,7 +28,7 @@ export function EmailPreview({ email, onRemoveEmail, onUpdateEmail }) {
                     <button onClick={onToggle} name="isRead">
                         <i className={isReadIcon}></i>
                     </button>
-                    <button onClick={(ev) => {ev.preventDefault();onRemoveEmail(email.id)}}>
+                    <button onClick={(ev) => { ev.preventDefault(); onRemoveEmail(email.id) }}>
                         <i className="fa fa-trash-o"></i>
                     </button>
                 </div>

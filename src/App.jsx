@@ -6,6 +6,7 @@ import { AppHeader } from './cmps/AppHeader'
 import { EmailIndex } from './pages/EmailIndex';
 import { AboutUs } from './pages/AboutUs';
 import { EmailDetails } from './pages/EmailDetails';
+import EmailCompose from './cmps/EmailCompose';
 
 export function App() {
 
@@ -22,6 +23,7 @@ export function App() {
                         </Route>
                     </Routes>
                 </main>
+                <EmailCompose/>
                 {/* <AppFooter /> */}
             </section>
         </Router >

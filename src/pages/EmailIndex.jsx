@@ -70,8 +70,7 @@ export function EmailIndex() {
             <AppAside></AppAside>
             <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
 
-            {/* {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail,  onRemoveEmail: onRemoveEmail }} /> */}
-            {params.emailId ? <EmailDetails  onUpdateEmail={onUpdateEmail}  onRemoveEmail= {onRemoveEmail} />
+            {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail,  onRemoveEmail: onRemoveEmail }} />
                 : <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
         </section>
     )
