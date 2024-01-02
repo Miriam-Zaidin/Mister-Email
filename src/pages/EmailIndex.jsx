@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { emailService } from "../services/email.service";
 import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
-import { EmailFolderList } from "../cmps/EmailFolderList";
-import { AppAside } from "../cmps/AppAside";
+import { EmailAside } from "../cmps/EmailAside";
 import { Outlet, useParams } from "react-router-dom";
-import { EmailDetails } from "./EmailDetails";
+import { EmailMain } from "../cmps/EmailMain";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
-    // const { } = useParams()
     const params = useParams()
 
     useEffect(() => {
@@ -36,7 +34,6 @@ export function EmailIndex() {
             else {
                 userConfirmed = confirm('Are you sure to remove this email?');
                 if (userConfirmed) {
-                    // למה לא להביא לפה את כל אובייקט המייל ולחסוך גישה לשרת?
                     const emailToRemove = await emailService.getById(emailId);
                     emailToRemove.removedAt = Date.now();
                     await emailService.save(emailToRemove);
@@ -67,11 +64,14 @@ export function EmailIndex() {
     if (!emails) return <div>Loading...</div>
     return (
         <section className="email-index">
-            <AppAside></AppAside>
-            <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
+            <EmailAside></EmailAside>
+            <EmailMain>
+                <EmailFilter filterBy={filterBy.txt} onSetFilter={onSetFilter} />
 
-            {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail,  onRemoveEmail: onRemoveEmail }} />
-                : <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
+                {params.emailId ? <Outlet context={{ onUpdateEmail: onUpdateEmail, onRemoveEmail: onRemoveEmail }} />
+                    : <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
+
+            </EmailMain>
         </section>
     )
 }
