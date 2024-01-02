@@ -1,0 +1,22 @@
+
+.gmail-img {
+    width: 109px;
+    height: 40px;
+}
+
+.aside{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-open-compose{
+    background-color: #c2e7ff;
+    font-size: .875rem;
+    align-items: center;
+    border-radius: 16px;
+    color: #001d35;
+    border: none;
+    height: 56px;
+    font-weight: 500;
+    padding: 0 0 0 24px;
+}
