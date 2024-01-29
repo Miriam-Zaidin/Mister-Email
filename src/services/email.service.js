@@ -29,27 +29,25 @@ function getDefaultFilter() {
     return defaultFilter
 }
 
-async function query(filterBy = defaultFilterBy) {
+async function query(filterBy = defaultFilter) {
     let emails = await storageService.query(STORAGE_KEY)
     const { status, txt, isRead } = filterBy
-    if (status) {
-        switch (status) {
-            case 'inbox':
-                emails = emails.filter(email => email.to === loggedInUser.email)
-                break;
-            case 'sent':
-                emails = emails.filter(email => email.from === loggedInUser.email)
-                break;
-            case 'star':
-                emails = emails.filter(email => email.isStarred)
-                break;
-            case 'trash':
-                emails = emails.filter(email => email.removedAt)
-                break;
-            default:
-                console.log('Conflict: query emails status Invalid :', status)
-                break;
-        }
+    switch (status) {
+        case 'inbox':
+            emails = emails.filter(email => email.to === loggedInUser.email)
+            break;
+        case 'sent':
+            emails = emails.filter(email => email.from === loggedInUser.email)
+            break;
+        case 'star':
+            emails = emails.filter(email => email.isStarred)
+            break;
+        case 'trash':
+            emails = emails.filter(email => email.removedAt)
+            break;
+        default:
+            console.log('Conflict: query emails status Invalid :', status)
+            break;
     }
     if (txt)
         emails = emails.filter(email => email.body.toLowerCase().includes(txt.toLowerCase()) ||

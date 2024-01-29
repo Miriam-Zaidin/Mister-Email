@@ -5,6 +5,7 @@ import { EmailFilter } from "../cmps/EmailFilter";
 import { EmailAside } from "../cmps/EmailAside";
 import { Outlet, useParams } from "react-router-dom";
 import { EmailMain } from "../cmps/EmailMain";
+import EmailCompose from "../cmps/EmailCompose";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null)
@@ -12,8 +13,9 @@ export function EmailIndex() {
     const params = useParams()
 
     useEffect(() => {
+        // setFilterBy
         loadEmails();
-    }, [filterBy])
+    }, [filterBy, params])
 
     async function loadEmails() {
         const emails = await emailService.query(filterBy)
@@ -72,6 +74,7 @@ export function EmailIndex() {
                     : <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail} />}
 
             </EmailMain>
+            <EmailCompose/>
         </section>
     )
 }
